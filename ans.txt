@@ -1,0 +1,696 @@
+Problem (look_at_cc): 4 points
+
+(a) Download the WARC file above, or find the copy we provide on the cluster. Let's look at the first page in this file. This is a gzipped file, and you can browse its contents with:
+
+$ zcat /data/CC/example.warc.gz | less 
+
+less lets you browse the file using keyboard arrows, Page Up, Page Down. To exit, press q.
+
+Look at the very first web page. What is its URL? Is it still accessible? Can you tell what the page seems to be about by looking at the raw HTML?
+Deliverable: A 2-3 sentence response.
+
+Ans: url: http://0371rykj.com/ipfhsb/34.html
+present in header WARC-Target-URI
+html response has lot of boilerplate and metadata
+
+(b) Let's now look at the corresponding WET file:
+
+$ zcat /data/CC/example.warc.wet.gz | less
+
+Note that the WET files contain HTTP headers (e.g., Content-Length) that are not part of the extracted text contents. If you look at the first example, you will see that it contains text that was extracted from the raw HTML you just saw. Notice that much of the extracted text is reminiscent of the HTML structure, and not actually the page's main content. Are there parts of the text you see that you think should have been filtered out by the extractor? Think about the quality of this text as training data: what might go wrong in training a model on text that looks like this? Conversely, what useful information can a model potentially extract from this page?
+Deliverable: A 3-4 sentence response.
+
+Ans: the WET file has extracted text. don't understand chineese, but looks clean
+
+(c) What makes a good training example is highly contextual. Describe an application domain for which this example might be useful to have in the training data, and one where it might not be.
+Deliverable: A 1-2 sentence response.
+
+Ans: useful for web page understanding, structural data. not useful for code generation
+
+(d) Let's look at some more examples to get a better sense of what's in the Common Crawl. Look through 25 more WET records. For each record, very briefly comment on the document's language (if you can identify it), the domain name, what type of page it is, etc. How many examples does it take until you see what you'd deem a "high-quality" webpage?
+Deliverable: Brief annotations of 25 documents with the document's language, domain, type of page, and any other miscellaneous notes about the document. The number of examples it takes until you see a high-quality example.
+
+Ans:
+http://0371rykj.com/ipfhsb/34.html - chineese - some info about stock company?
+http://10www.chinatikfans.com/home.php?mod=space&uid=4693&do=blog&classid=104&view=me - chineese - some social media site?
+http://13.usnccm.org/ - english - some brochure about a program - looking good and structured
+http://artoffiction.blogspot.com/2019/04/the-forensic-records-society-by-magnus.html - english - essay record - looks coherent, stuctured
+
+---
+
+Problem (extract_text)
+
+Run your text extraction function on a single WARC file. Compare its output to the extracted text in the corresponding WET file. What differences and/or similarities do you notice? Which extraction seems better?Deliverable: 2-3 sentence response comparing and contrasting the text extracted by your own function versus the extracted text in the WET files.
+
+WARC-Target-URI: http://artoffiction.blogspot.com/2019/04/the-forensic-records-society-by-magnus.html
+
+
+(4-data) janpuli@janpuli-mac cs336_data % python3 compare_warc_and_wet.py
+resiliparse from WARC URI:
+The Art of Fiction
+
+The Art of Fiction was a famous essay by Henry James, from 1885. This blog is written by Adrian Slatcher, who is a writer amongst other things, based in Manchester. His poetry collection "Playing Solitaire for Money" was published by Salt in 2010. I write about literature, music, politics and other stuff. You can find more about me and my writing at www.adrianslatcher.com
+
+Wednesday, April 17, 2019
+
+The Forensic Records Society by Magnus Mills
+
+The banal doesn't sit well with fiction. The novel insists, too often, on action of one kind or another. It is left to theatre - "Waiting for Godot" perhaps - or comedy, "Viz" or "Early Doors", to find an artistic mode for the passing of the days. Occasionally attempts like Sylvia Smith's "Misadventures" have not been well received. Yet banality is one of the tropes - perhaps the main trope - at the heart of Magnus Mills' is fiction. Perhaps its because most of his characters are workers of one sort or another that this is the case, although in his latest, "The Forensic Records Society", the whole people who actually work are George and Alice, the licensee and barmaid of the pub where the majority of the (in)action takes place.
+
+Two record collecting nerds would sit round each other's house, listening in turn to three records of the other's choice, an unspoken set of rules meaning that their comments on each were of the minimum. They were beyond taste, seeing that as merely opinion; yet tacitly they shared certain values. I'm reminded of when I was a teenager and three of us would come back from Birmingham laden with records and the rule was that we had to listen to the other's purchases, however much we hated them.
+
+James, the leader of the pair, has a plan, that he suggests to the narrator, as his willing foil, that they should start a Forensic Records Society at their nearby pub on a Monday night. They do so, and gradually, draw in other blokes (always blokes), to their Monday ritual. Like early Christians or prototype Marxists, their club develops rules, and is both rigorous in the applying of them, and solemn in the seriousness of their purpose. Time passes in a vacuum, regardless of how many records they play it is always a surprise when last orders is called.
+
+On ejecting one person from the club for arriving too late they find that he has set up a rival - a "confessional" records club, on the next night. Infiltrating this night they find it is very different. That people confess their feelings brought on by a particular record, and pay £5 for the privilege; it is attended by a mixed crowd, women included, and the leader becomes a bit of an icon.  It's like Simon Bates' "Our Tune" mixed with "The Matrix."
+
+In the mean time, the pettiness of James' rules causes disquiet amongst the members, even as they turn up to listen to classic 7" singles. The song titles are planted throughout the book without explanation, so we too can almost become members of the club. There's a debate going on about the "perfect" song - not because of artistic merit but because it lasts for exactly three minutes, the "three minute pop song" being more a thing of legend than reality. This is the kind of thing that gets the men who attend this club excited.
+
+Our narrator, common to many of Mill's characters, is unworldy whilst having a highly developed sense of his own perceptions. He slowly comes to realise that James is seeing Alice, the barmaid, who nonetheless remains incredibly frosty with himself. She has, it turns out, been singer on a very rare demo single, and the plot of the novel - if there is one - swings around this being heard. Alice, in her turn, has strong views on the narrator, describing him as someone who  doesn't like music.
+
+The humour in "The Forensic Records Society" is in how Mills, as ever, works wonders on a tiny, restricted canvas, and draws out of it all its comic possibilities. The uncertain time keeping of the meetings is part of it. In Magnus Mills' world even physics can bend to the comic possibilities of the narrative.
+
+Things come to a head of sorts, when a 3rd rival organisation, playing records that are more "meaningful", comes into existence. There's quite a few nice digs at the world of the record collector in this narcissism of small differences, from those who fetishise the object, to those who want the innocence of the classic jukebox 45. Amongst the many records listed, there are rap and ska and indie and classic rock and soul, but not much room for ABBA or house music or anything too modern. Even an avid record collector such as myself only recognised about two/thirds of the titles.
+
+Its a short novel, but more packed than the above description can give a sense of, since in talking about the banal and the unimportant, there's clearly bigger things going on here. One reviewer calls it Animal Farm "with much better songs", but I always think Mills is less interested in metaphor, than in the small systems that exist within our everyday mundane society, such as the rules of the forensic records society, or the maintenance of headway that bus drivers pursue in a previous of his books. This fondness for an enclosed, regulated society, and what happens when the rules are broken or not fit for purpose is a way of exploring how men (and it is always men, the "love interest" like Alice, is hardly there at all) negotiate the world. That the world is not quite the one we perceive, is part of their charm.
+
+This latest novel seems the closest in many ways to his debut "Restraint of Beasts", and like that its ending is uncertain, and ambiguous. The return to an every day setting after some of the more fantastical or out of time settings of recent novels is a welcome return to his home turf. It's one of his best.
+Posted by Adrian Slatcher at 12:18 AM
+
+No comments:
+
+Post a Comment
+
+Newer Post Older Post Home
+Subscribe to: Post Comments (Atom)
+
+Playing Solitaire for Money by Adrian Slatcher
+
+Playing Solitaire for Money by Adrian Slatcher
+
+My Links
+
+  • Bonbon Experiment - Free Music Downloads
+  • Bonbon Experiment Myspace
+  • Poems & Fiction by Adrian Slatcher
+
+Blog Archive
+
+  • ▼  2019 (13)
+    • ►  December (1)
+    • ►  October (1)
+    • ►  September (1)
+    • ►  August (2)
+    • ►  July (1)
+    • ►  June (2)
+    • ▼  April (2)
+      • The Forensic Records Society by Magnus Mills
+      • Art Currents
+    • ►  March (2)
+    • ►  February (1)
+  • ►  2018 (24)
+    • ►  December (2)
+    • ►  October (1)
+    • ►  September (2)
+    • ►  August (3)
+    • ►  July (4)
+    • ►  June (1)
+    • ►  May (1)
+    • ►  April (4)
+    • ►  March (2)
+    • ►  January (4)
+  • ►  2017 (39)
+    • ►  December (4)
+    • ►  November (3)
+    • ►  October (2)
+    • ►  September (1)
+    • ►  August (4)
+    • ►  July (3)
+    • ►  June (4)
+    • ►  May (6)
+    • ►  April (3)
+    • ►  March (4)
+    • ►  February (2)
+    • ►  January (3)
+  • ►  2016 (47)
+    • ►  December (2)
+    • ►  November (4)
+    • ►  October (5)
+    • ►  September (3)
+    • ►  August (6)
+    • ►  July (2)
+    • ►  June (3)
+    • ►  May (3)
+    • ►  April (4)
+    • ►  March (4)
+    • ►  February (4)
+    • ►  January (7)
+  • ►  2015 (52)
+    • ►  December (6)
+    • ►  November (2)
+    • ►  October (3)
+    • ►  September (2)
+    • ►  August (6)
+    • ►  July (2)
+    • ►  June (6)
+    • ►  May (3)
+    • ►  April (4)
+    • ►  March (7)
+    • ►  February (5)
+    • ►  January (6)
+  • ►  2014 (76)
+    • ►  December (5)
+    • ►  November (5)
+    • ►  October (7)
+    • ►  September (8)
+    • ►  August (7)
+    • ►  July (7)
+    • ►  June (4)
+    • ►  May (4)
+    • ►  April (6)
+    • ►  March (7)
+    • ►  February (9)
+    • ►  January (7)
+  • ►  2013 (88)
+    • ►  December (9)
+    • ►  November (12)
+    • ►  October (5)
+    • ►  September (7)
+    • ►  August (6)
+    • ►  July (7)
+    • ►  June (4)
+    • ►  May (7)
+    • ►  April (8)
+    • ►  March (8)
+    • ►  February (7)
+    • ►  January (8)
+  • ►  2012 (67)
+    • ►  December (6)
+    • ►  November (4)
+    • ►  October (5)
+    • ►  September (7)
+    • ►  August (2)
+    • ►  July (4)
+    • ►  June (6)
+    • ►  May (6)
+    • ►  April (6)
+    • ►  March (9)
+    • ►  February (6)
+    • ►  January (6)
+  • ►  2011 (87)
+    • ►  December (10)
+    • ►  November (4)
+    • ►  October (7)
+    • ►  September (9)
+    • ►  August (7)
+    • ►  July (9)
+    • ►  June (5)
+    • ►  May (7)
+    • ►  April (8)
+    • ►  March (9)
+    • ►  February (7)
+    • ►  January (5)
+  • ►  2010 (132)
+    • ►  December (9)
+    • ►  November (10)
+    • ►  October (12)
+    • ►  September (12)
+    • ►  August (13)
+    • ►  July (9)
+    • ►  June (8)
+    • ►  May (15)
+    • ►  April (14)
+    • ►  March (11)
+    • ►  February (9)
+    • ►  January (10)
+  • ►  2009 (130)
+    • ►  December (13)
+    • ►  November (9)
+    • ►  October (14)
+    • ►  September (9)
+    • ►  August (14)
+    • ►  July (11)
+    • ►  June (10)
+    • ►  May (13)
+    • ►  April (13)
+    • ►  March (10)
+    • ►  February (6)
+    • ►  January (8)
+  • ►  2008 (117)
+    • ►  December (11)
+    • ►  November (11)
+    • ►  October (6)
+    • ►  September (15)
+    • ►  August (6)
+    • ►  July (9)
+    • ►  June (13)
+    • ►  May (12)
+    • ►  April (7)
+    • ►  March (13)
+    • ►  February (10)
+    • ►  January (4)
+  • ►  2007 (146)
+    • ►  December (12)
+    • ►  November (6)
+    • ►  October (14)
+    • ►  September (8)
+    • ►  August (9)
+    • ►  July (7)
+    • ►  June (16)
+    • ►  May (10)
+    • ►  April (12)
+    • ►  March (24)
+    • ►  February (11)
+    • ►  January (17)
+  • ►  2006 (165)
+    • ►  December (17)
+    • ►  November (12)
+    • ►  October (18)
+    • ►  September (17)
+    • ►  August (19)
+    • ►  July (17)
+    • ►  June (7)
+    • ►  May (12)
+    • ►  April (11)
+    • ►  March (14)
+    • ►  February (11)
+    • ►  January (10)
+  • ►  2005 (38)
+    • ►  December (7)
+    • ►  November (7)
+    • ►  October (12)
+    • ►  September (10)
+    • ►  August (2)
+
+Other People's Sites
+
+  • Adele Ward
+  • Almost Island
+  • Amy De'ath
+  • Anthony Burgess Foundation
+  • Arts & Letters Daily
+  • Bad Language
+  • Baroque in Hackney
+  • Brit Lit Blogs
+  • Carcanet
+  • Chris McCabe
+  • Claire Trevien
+  • Comma Press
+  • Compass Magazine
+  • Counting Backwards
+  • Creative Tourist, Manchester
+  • Eggbox Publishing
+  • Elizabeth Baines
+  • Fiction Bitch
+  • Fleeting Magazine
+  • George Szirtes
+  • Hand & Star
+  • Horizon Review
+  • If P then Q
+  • Ink, Sweat and Tears
+  • Kill Author
+  • Knives Forks and Spoons Press
+  • Lindsey Holland
+  • Litfest
+  • MacGuffin
+  • Manchester Lit List
+  • Manchester Literature Festival
+  • Nathan Hamilton
+  • Nicholas Royle
+  • Openned
+  • Parameter Magazine
+  • Peony Moon
+  • Poet & Geek Dot Com
+  • Poetry & the Poetry Foundation
+  • Poetry Magazines Archive
+  • Sabotage Reviews
+  • Salt Modern Voices
+  • Salt Publishing
+  • Shrieking Violet
+  • Social Media Cafe, Manchester
+  • Steven Waling
+  • Stop/Sharpening/Your/Knives
+  • The Barcelona Review
+  • The Manchester Review
+  • The Manchizzle
+  • The Other Room
+  • The Poetry Channel
+  • The Rialto
+  • The Siren
+  • The Warwick Review
+  • Tony Trehy
+  • UbuWeb
+  • Unthank Books
+  • Valerie O'Riordan
+  • Words & Fixtures
+  • Writers' Centre Norwich
+  • zimZalla
+
+Followers
+
+Twitter Updates
+
+Twitter Updates
+
+    follow me on Twitter
+    Simple theme. Powered by Blogger.
+common crawl from WET:
+The Art of Fiction: The Forensic Records Society by Magnus Mills
+The Art of Fiction
+The Art of Fiction was a famous essay by Henry James, from 1885. This blog is written by Adrian Slatcher, who is a writer amongst other things, based in Manchester. His poetry collection "Playing Solitaire for Money" was published by Salt in 2010. I write about literature, music, politics and other stuff. You can find more about me and my writing at www.adrianslatcher.com
+Wednesday, April 17, 2019
+The Forensic Records Society by Magnus Mills
+The banal doesn't sit well with fiction. The novel insists, too often, on action of one kind or another. It is left to theatre - "Waiting for Godot" perhaps - or comedy, "Viz" or "Early Doors", to find an artistic mode for the passing of the days. Occasionally attempts like Sylvia Smith's "Misadventures" have not been well received. Yet banality is one of the tropes - perhaps the main trope - at the heart of Magnus Mills' is fiction. Perhaps its because most of his characters are workers of one sort or another that this is the case, although in his latest, "The Forensic Records Society", the whole people who actually work are George and Alice, the licensee and barmaid of the pub where the majority of the (in)action takes place.
+Two record collecting nerds would sit round each other's house, listening in turn to three records of the other's choice, an unspoken set of rules meaning that their comments on each were of the minimum. They were beyond taste, seeing that as merely opinion; yet tacitly they shared certain values. I'm reminded of when I was a teenager and three of us would come back from Birmingham laden with records and the rule was that we had to listen to the other's purchases, however much we hated them.
+James, the leader of the pair, has a plan, that he suggests to the narrator, as his willing foil, that they should start a Forensic Records Society at their nearby pub on a Monday night. They do so, and gradually, draw in other blokes (always blokes), to their Monday ritual. Like early Christians or prototype Marxists, their club develops rules, and is both rigorous in the applying of them, and solemn in the seriousness of their purpose. Time passes in a vacuum, regardless of how many records they play it is always a surprise when last orders is called.
+On ejecting one person from the club for arriving too late they find that he has set up a rival - a "confessional" records club, on the next night. Infiltrating this night they find it is very different. That people confess their feelings brought on by a particular record, and pay £5 for the privilege; it is attended by a mixed crowd, women included, and the leader becomes a bit of an icon. It's like Simon Bates' "Our Tune" mixed with "The Matrix."
+In the mean time, the pettiness of James' rules causes disquiet amongst the members, even as they turn up to listen to classic 7" singles. The song titles are planted throughout the book without explanation, so we too can almost become members of the club. There's a debate going on about the "perfect" song - not because of artistic merit but because it lasts for exactly three minutes, the "three minute pop song" being more a thing of legend than reality. This is the kind of thing that gets the men who attend this club excited.
+Our narrator, common to many of Mill's characters, is unworldy whilst having a highly developed sense of his own perceptions. He slowly comes to realise that James is seeing Alice, the barmaid, who nonetheless remains incredibly frosty with himself. She has, it turns out, been singer on a very rare demo single, and the plot of the novel - if there is one - swings around this being heard. Alice, in her turn, has strong views on the narrator, describing him as someone who doesn't like music.
+The humour in "The Forensic Records Society" is in how Mills, as ever, works wonders on a tiny, restricted canvas, and draws out of it all its comic possibilities. The uncertain time keeping of the meetings is part of it. In Magnus Mills' world even physics can bend to the comic possibilities of the narrative.
+Things come to a head of sorts, when a 3rd rival organisation, playing records that are more "meaningful", comes into existence. There's quite a few nice digs at the world of the record collector in this narcissism of small differences, from those who fetishise the object, to those who want the innocence of the classic jukebox 45. Amongst the many records listed, there are rap and ska and indie and classic rock and soul, but not much room for ABBA or house music or anything too modern. Even an avid record collector such as myself only recognised about two/thirds of the titles.
+Its a short novel, but more packed than the above description can give a sense of, since in talking about the banal and the unimportant, there's clearly bigger things going on here. One reviewer calls it Animal Farm "with much better songs", but I always think Mills is less interested in metaphor, than in the small systems that exist within our everyday mundane society, such as the rules of the forensic records society, or the maintenance of headway that bus drivers pursue in a previous of his books. This fondness for an enclosed, regulated society, and what happens when the rules are broken or not fit for purpose is a way of exploring how men (and it is always men, the "love interest" like Alice, is hardly there at all) negotiate the world. That the world is not quite the one we perceive, is part of their charm.
+This latest novel seems the closest in many ways to his debut "Restraint of Beasts", and like that its ending is uncertain, and ambiguous. The return to an every day setting after some of the more fantastical or out of time settings of recent novels is a welcome return to his home turf. It's one of his best.
+Posted by Adrian Slatcher at 12:18 AM
+No comments:
+Post a Comment
+Newer Post Older Post Home
+Subscribe to: Post Comments (Atom)
+Playing Solitaire for Money by Adrian Slatcher
+My Links
+Bonbon Experiment - Free Music Downloads
+Bonbon Experiment Myspace
+Poems & Fiction by Adrian Slatcher
+Blog Archive
+▼ 2019 (13)
+► December (1)
+► October (1)
+► September (1)
+► August (2)
+► July (1)
+► June (2)
+▼ April (2)
+The Forensic Records Society by Magnus Mills
+Art Currents
+► March (2)
+► February (1)
+► 2018 (24)
+► December (2)
+► October (1)
+► September (2)
+► August (3)
+► July (4)
+► June (1)
+► May (1)
+► April (4)
+► March (2)
+► January (4)
+► 2017 (39)
+► December (4)
+► November (3)
+► October (2)
+► September (1)
+► August (4)
+► July (3)
+► June (4)
+► May (6)
+► April (3)
+► March (4)
+► February (2)
+► January (3)
+► 2016 (47)
+► December (2)
+► November (4)
+► October (5)
+► September (3)
+► August (6)
+► July (2)
+► June (3)
+► May (3)
+► April (4)
+► March (4)
+► February (4)
+► January (7)
+► 2015 (52)
+► December (6)
+► November (2)
+► October (3)
+► September (2)
+► August (6)
+► July (2)
+► June (6)
+► May (3)
+► April (4)
+► March (7)
+► February (5)
+► January (6)
+► 2014 (76)
+► December (5)
+► November (5)
+► October (7)
+► September (8)
+► August (7)
+► July (7)
+► June (4)
+► May (4)
+► April (6)
+► March (7)
+► February (9)
+► January (7)
+► 2013 (88)
+► December (9)
+► November (12)
+► October (5)
+► September (7)
+► August (6)
+► July (7)
+► June (4)
+► May (7)
+► April (8)
+► March (8)
+► February (7)
+► January (8)
+► 2012 (67)
+► December (6)
+► November (4)
+► October (5)
+► September (7)
+► August (2)
+► July (4)
+► June (6)
+► May (6)
+► April (6)
+► March (9)
+► February (6)
+► January (6)
+► 2011 (87)
+► December (10)
+► November (4)
+► October (7)
+► September (9)
+► August (7)
+► July (9)
+► June (5)
+► May (7)
+► April (8)
+► March (9)
+► February (7)
+► January (5)
+► 2010 (132)
+► December (9)
+► November (10)
+► October (12)
+► September (12)
+► August (13)
+► July (9)
+► June (8)
+► May (15)
+► April (14)
+► March (11)
+► February (9)
+► January (10)
+► 2009 (130)
+► December (13)
+► November (9)
+► October (14)
+► September (9)
+► August (14)
+► July (11)
+► June (10)
+► May (13)
+► April (13)
+► March (10)
+► February (6)
+► January (8)
+► 2008 (117)
+► December (11)
+► November (11)
+► October (6)
+► September (15)
+► August (6)
+► July (9)
+► June (13)
+► May (12)
+► April (7)
+► March (13)
+► February (10)
+► January (4)
+► 2007 (146)
+► December (12)
+► November (6)
+► October (14)
+► September (8)
+► August (9)
+► July (7)
+► June (16)
+► May (10)
+► April (12)
+► March (24)
+► February (11)
+► January (17)
+► 2006 (165)
+► December (17)
+► November (12)
+► October (18)
+► September (17)
+► August (19)
+► July (17)
+► June (7)
+► May (12)
+► April (11)
+► March (14)
+► February (11)
+► January (10)
+► 2005 (38)
+► December (7)
+► November (7)
+► October (12)
+► September (10)
+► August (2)
+Other People's Sites
+Adele Ward
+Almost Island
+Amy De'ath
+Anthony Burgess Foundation
+Arts & Letters Daily
+Bad Language
+Baroque in Hackney
+Brit Lit Blogs
+Carcanet
+Chris McCabe
+Claire Trevien
+Comma Press
+Compass Magazine
+Counting Backwards
+Creative Tourist, Manchester
+Eggbox Publishing
+Elizabeth Baines
+Fiction Bitch
+Fleeting Magazine
+George Szirtes
+Hand & Star
+Horizon Review
+If P then Q
+Ink, Sweat and Tears
+Kill Author
+Knives Forks and Spoons Press
+Lindsey Holland
+Litfest
+MacGuffin
+Manchester Lit List
+Manchester Literature Festival
+Nathan Hamilton
+Nicholas Royle
+Openned
+Parameter Magazine
+Peony Moon
+Poet & Geek Dot Com
+Poetry & the Poetry Foundation
+Poetry Magazines Archive
+Sabotage Reviews
+Salt Modern Voices
+Salt Publishing
+Shrieking Violet
+Social Media Cafe, Manchester
+Steven Waling
+Stop/Sharpening/Your/Knives
+The Barcelona Review
+The Manchester Review
+The Manchizzle
+The Other Room
+The Poetry Channel
+The Rialto
+The Siren
+The Warwick Review
+Tony Trehy
+UbuWeb
+Unthank Books
+Valerie O'Riordan
+Words & Fixtures
+Writers' Centre Norwich
+zimZalla
+Followers
+Twitter Updates
+Twitter Updates
+follow me on Twitter
+Simple theme. Powered by Blogger.
+
+
+resiliparse looks cleaner and more focused on core content and filtered out menus, ...
+in CC wet file full text is visible and low quality
+
+---
+Problem (mask_pii):
+
+4. What problems do you think might arise downstream in a language model when these filters are naïvely applied on the training set? How might you mitigate these issues?
+Ans: can mask valid non-pii data like math equations, version numbers, code snippets containing these patterns like phone number, ..
+should avoid by using some blocks tags like <code>, ...
+
+---
+
+Problem (harmful_content):
+
+What problems do you think might arise downstream in a language model when these filters are applied to create the training set? How might you mitigate these issues?
+Deliverable: A 2-5 sentence response.
+Ans: can create bias, text from maginalised identities can be flagged as toxic and removed from training set. can restrict model's abilities on downstream tasks. we hsould use a better context aware classifier rather than flagging simply based on text like fasttext
+
+---
+
+Problem (quality_classifier):
+
+(a) Train a quality classifier that, given text, returns a numeric quality score.
+Deliverable: A quality classifier for use in the next subproblem.
+
+data -> /data/enwiki-20240420-extracted_urls.txt.gz
+
+(4-data) janpuli@janpuli-mac data % gzcat enwiki-20240420-extracted_urls.txt.gz | gshuf -n 50000 > pos_urls.txt
+
+(4-data) janpuli@janpuli-mac data % split -l 1000 pos_urls.txt url_chunk_
+
+(4-data) janpuli@janpuli-mac data % ls url_chunk_* | xargs -n 1 -P 20 -I {} wget \
+  --timeout=5 \
+  --tries=3 \
+  --retry-connrefused \
+  --waitretry=1 \
+  -i {} \
+  --warc-file={}_warc \
+  -O /dev/null
+
+if this stops in between create a new file misisng_chunks and add the remianing files like:
+url_chunk_ba
+url_chunk_bb
+url_chunk_bc
+url_chunk_bd
+...
+
+and then run 
+cat missing_chunks.txt | xargs -n 1 -P 20 -I {} wget \
+  --timeout=5 \
+  --tries=3 \
+  --retry-connrefused \
+  --waitretry=1 \
+  -i {} \
+  --warc-file={}_warc \
+  -O /dev/null
+
+---
+
+

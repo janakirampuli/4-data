@@ -13,7 +13,7 @@ def test_classify_quality():
     prediction, score = run_classify_quality(low_quality_cc)
     # TODO: you may have to change this check below, depending on what your
     # quality classifier returns.
-    assert prediction == "cc"
+    assert prediction == "low"
     assert isinstance(score, float)
     assert score > 0
 
@@ -23,7 +23,7 @@ def test_classify_quality():
     prediction, score = run_classify_quality(high_quality_wiki)
     # TODO: you may have to change this check below, depending on what your
     # quality classifier returns.
-    assert prediction == "wiki"
+    assert prediction == "high"
     assert isinstance(score, float)
     assert score > 0
 
@@ -38,6 +38,7 @@ def test_gopher_valid_input():
 
 def test_gopher_less_than_50_non_symbol_words():
     text = "The string you are reading is a short snippet of text."
+    print(run_gopher_quality_filter(text))
     assert not run_gopher_quality_filter(text)
 
     text = "The string you are reading is a long snippet of text." * 100
